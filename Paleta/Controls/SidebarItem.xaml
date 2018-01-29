@@ -1,0 +1,189 @@
+﻿<UserControl
+    x:Class="Palette.Controls.SidebarItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Palette.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Palette.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <converters:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+        <local:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+        <local:IntToVisibilityConverter IsInverted="true"  x:Key="IntToVisibilityConverterInverted"/>
+        <local:ObservableToGradientStopsCollection x:Key="ObservableToGradientStopsCollection"/>
+    </UserControl.Resources>
+
+    <Grid Height="50" Background="Transparent" AllowDrop="True" DragEnter="Grid_DragEnter" DragLeave="Grid_DragLeave" Drop="Grid_Drop">
+
+        <FlyoutBase.AttachedFlyout>
+            <MenuFlyout>
+                <MenuFlyout.Items>
+                    <MenuFlyoutItem Text="Rename Palette" Command="{Binding mainPageViewModel.RenamePaletteCommand}" CommandParameter="{Binding}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="16" Glyph="&#xE8AC;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Share Palette" Command="{Binding mainPageViewModel.SharePaletteCommand}" CommandParameter="{Binding}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="16" Glyph="&#xE72D;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Delete Palette" Command="{Binding mainPageViewModel.DeletePaletteCommand}" CommandParameter="{Binding}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="16" Glyph="&#xE74D;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout.Items>
+            </MenuFlyout>
+        </FlyoutBase.AttachedFlyout>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <Rectangle x:Name="rectangleDrag" Grid.ColumnSpan="7" Fill="{ThemeResource ForegroundColor}" Opacity="0"/>
+
+        <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="10">
+
+            <Path
+		Margin="15,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+		Data="M 14.899999618530273,10 C14.899999618530273,10 15,10 15,10 17.761459350585938,10 20,7.7614593505859375 20,5 20,2.2385406494140625 17.761459350585938,0 15,0 15,0 14.899999618530273,0 14.899999618530273,0 16.195945739746094,1.270439624786377 17,3.041799545288086 17,5 17,6.958200454711914 16.195945739746094,8.729560852050781 14.899999618530273,10 z">
+                <Path.Fill>
+                    <SolidColorBrush Color="#4c7F7F7F"/>
+                </Path.Fill>
+            </Path>
+
+            <Path
+		Margin="10,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+		Data="M 9.899999618530273,10 C9.899999618530273,10 10,10 10,10 12.761459350585938,10 15,7.7614593505859375 15,5 15,2.2385406494140625 12.761459350585938,0 10,0 10,0 9.899999618530273,0 9.899999618530273,0 11.19594669342041,1.270439624786377 12,3.041799545288086 12,5 12,6.958200454711914 11.19594669342041,8.729560852050781 9.899999618530273,10 z">
+                <Path.Fill>
+                    <SolidColorBrush Color="#4c7F7F7F"/>
+                </Path.Fill>
+            </Path>
+
+            <Ellipse Width="10" Height="10" Fill="#4c7F7F7F" HorizontalAlignment="Left"/>
+
+        </Grid>
+
+        <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="10">
+
+            <Path
+		Margin="15,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+        Visibility="{Binding Colors[2].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverterInverted}, FallbackValue='Collapsed'}"
+		Data="M 14.899999618530273,10 C14.899999618530273,10 15,10 15,10 17.761459350585938,10 20,7.7614593505859375 20,5 20,2.2385406494140625 17.761459350585938,0 15,0 15,0 14.899999618530273,0 14.899999618530273,0 16.195945739746094,1.270439624786377 17,3.041799545288086 17,5 17,6.958200454711914 16.195945739746094,8.729560852050781 14.899999618530273,10 z">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" GradientStops="{Binding Colors[2].Colors, Mode=OneWay, Converter={StaticResource ObservableToGradientStopsCollection}}">
+                        <LinearGradientBrush.RelativeTransform>
+                            <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="{Binding Colors[2].Rotation, Mode=OneWay}"/>
+                        </LinearGradientBrush.RelativeTransform>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+
+            <Path
+		Margin="10,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+        Visibility="{Binding Colors[1].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverterInverted}, FallbackValue='Collapsed'}"
+		Data="M 9.899999618530273,10 C9.899999618530273,10 10,10 10,10 12.761459350585938,10 15,7.7614593505859375 15,5 15,2.2385406494140625 12.761459350585938,0 10,0 10,0 9.899999618530273,0 9.899999618530273,0 11.19594669342041,1.270439624786377 12,3.041799545288086 12,5 12,6.958200454711914 11.19594669342041,8.729560852050781 9.899999618530273,10 z">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" GradientStops="{Binding Colors[1].Colors, Mode=OneWay, Converter={StaticResource ObservableToGradientStopsCollection}}">
+                        <LinearGradientBrush.RelativeTransform>
+                            <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="{Binding Colors[1].Rotation, Mode=OneWay}"/>
+                        </LinearGradientBrush.RelativeTransform>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+
+            <Ellipse Width="10" Height="10" HorizontalAlignment="Left" Visibility="{Binding Colors[0].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverterInverted}, FallbackValue='Collapsed'}">
+                <Ellipse.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" GradientStops="{Binding Colors[0].Colors, Mode=OneWay, Converter={StaticResource ObservableToGradientStopsCollection}}">
+                        <LinearGradientBrush.RelativeTransform>
+                            <CompositeTransform CenterY="0.5" CenterX="0.5" Rotation="{Binding Colors[0].Rotation, Mode=OneWay}"/>
+                        </LinearGradientBrush.RelativeTransform>
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+        </Grid>
+        
+        <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="10">
+
+            <Path
+		Margin="15,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+        Visibility="{Binding Colors[2].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"
+		Data="M 14.899999618530273,10 C14.899999618530273,10 15,10 15,10 17.761459350585938,10 20,7.7614593505859375 20,5 20,2.2385406494140625 17.761459350585938,0 15,0 15,0 14.899999618530273,0 14.899999618530273,0 16.195945739746094,1.270439624786377 17,3.041799545288086 17,5 17,6.958200454711914 16.195945739746094,8.729560852050781 14.899999618530273,10 z">
+                <Path.Fill>
+                    <SolidColorBrush Color="{Binding Colors[2].Colors[0].Color, Mode=OneWay}"/>
+                </Path.Fill>
+            </Path>
+
+            <Path
+		Margin="10,0,0,0"
+		HorizontalAlignment="Left"
+		VerticalAlignment="Top"
+		Height="10"
+		Width="5"
+		Stretch="Fill"
+		Opacity="1"
+        Visibility="{Binding Colors[1].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}"
+		Data="M 9.899999618530273,10 C9.899999618530273,10 10,10 10,10 12.761459350585938,10 15,7.7614593505859375 15,5 15,2.2385406494140625 12.761459350585938,0 10,0 10,0 9.899999618530273,0 9.899999618530273,0 11.19594669342041,1.270439624786377 12,3.041799545288086 12,5 12,6.958200454711914 11.19594669342041,8.729560852050781 9.899999618530273,10 z">
+                <Path.Fill>
+                    <SolidColorBrush Color="{Binding Colors[1].Colors[0].Color, Mode=OneWay}"/>
+                </Path.Fill>
+            </Path>
+
+            <Ellipse Width="10" Height="10" HorizontalAlignment="Left" Visibility="{Binding Colors[0].Colors.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}">
+                <Ellipse.Fill>
+                    <SolidColorBrush Color="{Binding Colors[0].Colors[0].Color, Mode=OneWay}"/>
+                </Ellipse.Fill>
+            </Ellipse>
+
+        </Grid>
+        
+        <TextBlock Text="Untitled" Opacity="0.5" Grid.Column="3" VerticalAlignment="Center" Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource TextToVisibilityConverter}}"/>
+        <TextBlock Text="{Binding Name, Mode=OneWay, FallbackValue='Sleep Well Beast'}" TextTrimming="CharacterEllipsis" Grid.Column="3" VerticalAlignment="Center"/>
+
+        <TextBlock FontWeight="SemiBold" FontSize="13" Text="{Binding Colors.Count, Mode=OneWay, FallbackValue='6'}" TextLineBounds="Tight" Foreground="{ThemeResource ForegroundColor}" HorizontalAlignment="Right" Opacity=".5" Grid.Column="5" VerticalAlignment="Center"/>
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,146 @@
+﻿<UserControl
+    x:Class="Palette.Views.ExportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Palette.Models"
+    xmlns:controls="using:Palette.Controls"
+    xmlns:converters="using:Palette.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="1280"
+    FontSize="13"
+    FontWeight="SemiBold">
+
+    <UserControl.Resources>
+        <converters:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+        <converters:TextToVisibilityConverter IsInverted="True" x:Key="TextToVisibilityConverterInverted"/>
+        <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter"/>
+        <converters:IntToVisibilityConverter IsInverted="True" x:Key="IntToVisibilityConverterInverted"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="gridContent">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NewWindow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gridBackground.Visibility" Value="Collapsed"/>
+                        <Setter Target="gridTitleBar.Visibility" Value="Collapsed"/>
+                        <Setter Target="gridSearch.Visibility" Value="Collapsed"/>
+                        <Setter Target="listViewItems.Padding" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="FullScreen">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="510"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="gridBackground.Visibility" Value="Visible"/>
+                        <Setter Target="gridTitleBar.Visibility" Value="Visible"/>
+                        <Setter Target="gridSearch.Visibility" Value="Visible"/>
+                        <Setter Target="listViewItems.Padding" Value="0,0,0,17"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="gridBackground" Grid.RowSpan="3">
+            <Rectangle Fill="{ThemeResource AcrylicBackdrop}"/>
+            <Rectangle Fill="{ThemeResource AcrylicBackdrop}"/>
+        </Grid>
+
+        <Grid x:Name="gridTitleBar" RenderTransformOrigin="0.5,0.5" MaxWidth="550" Height="40" Margin="0,50,0,0">
+           
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+
+            <Viewbox StretchDirection="DownOnly" Stretch="Uniform" HorizontalAlignment="Left" Margin="20,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource TextBlockTitle}" VerticalAlignment="Center">
+                        Export
+                    </TextBlock>
+                    <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Name, FallbackValue='Accent Color'}" Style="{StaticResource TextBlockTitle}" Margin="8,0,0,0" Grid.Column="1" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Viewbox>
+            
+            <Button Click="buttonClose_Click" HorizontalAlignment="Right" Style="{ThemeResource ButtonAppBarText}" Grid.Column="1">
+                Close
+            </Button>
+            
+        </Grid>
+
+        <Grid x:Name="gridSearch" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Margin="0,17" MaxWidth="550">
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <TextBox x:Name="textBoxSearch" KeyUp="textBoxSearch_KeyUp" TabIndex="0" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Search" HorizontalAlignment="Stretch" Height="50" Style="{StaticResource TextBoxExportSearch}"/>
+        </Grid>
+
+        <Grid x:Name="gridLists" Grid.Row="2" RenderTransformOrigin="0.5,0.5" MaxWidth="550">
+
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+
+            <ListView x:Name="listViewItems" IsItemClickEnabled="True" ItemClick="listViewItems_ItemClick" ItemsSource="{Binding Exports, Mode=OneWay}" ItemContainerStyle="{StaticResource ListViewSidebarItem}" SelectionMode="None" Visibility="{Binding SearchText, Mode=OneWay, Converter={StaticResource TextToVisibilityConverter}}" Padding="0,0,0,17">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <controls:ExportItemControl x:Name="exportItemControl"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Header>
+                    <Rectangle Height="1" Fill="{ThemeResource revealBorderBrush}" RenderTransformOrigin="0.5,0.5" Margin="1,0" Visibility="{Binding Exports.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverterInverted}}">
+                        <Rectangle.RenderTransform>
+                            <CompositeTransform TranslateY="1"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </ListView.Header>
+            </ListView>
+
+            <Grid Visibility="{Binding SearchText, Mode=OneWay, Converter={StaticResource TextToVisibilityConverterInverted}}">
+                <ListView x:Name="listViewSearch" IsItemClickEnabled="True" ItemClick="listViewItems_ItemClick" ItemsSource="{Binding SearchItems, Mode=OneWay}" ItemContainerStyle="{StaticResource ListViewSidebarItem}" SelectionMode="None" Padding="0,0,0,17">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <controls:ExportItemControl x:Name="exportItemControl"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Header>
+                        <Rectangle Height="1" Fill="{ThemeResource revealBorderBrush}" RenderTransformOrigin="0.5,0.5" Margin="1,0" Visibility="{Binding SearchItems.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverterInverted}}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform TranslateY="1"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </ListView.Header>
+                </ListView>
+
+                <TextBlock Opacity=".55" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SearchItems.Count, Mode=OneWay, Converter={StaticResource IntToVisibilityConverter}}">
+                    No search results
+                </TextBlock>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

@@ -23,6 +23,11 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+.vs/
+[Bb]in/[Oo]bj/x86/
+[Bb]in/[Oo]bj/x64/
+[Oo]bj/x86/Debug/
+[Oo]bj/x64/Debug/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -41,6 +46,9 @@ TestResult.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
+
+# Benchmark Results
+BenchmarkDotNet.Artifacts/
 
 # .NET Core
 project.lock.json
@@ -183,6 +191,7 @@ AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
 _pkginfo.txt
+*.appx
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -277,6 +286,9 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
+
+# Tabs Studio
+*.tss
 
 # Telerik's JustMock configuration file
 *.jmconfig

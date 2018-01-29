@@ -1,0 +1,339 @@
+﻿<UserControl
+    x:Class="Palette.Views.ColorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Palette.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Palette.Controls"
+    xmlns:converters="using:Palette.Converters"
+    xmlns:mscontrols="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    d:DesignWidth="1280"
+    d:DesignHeight="720"
+    Foreground="{ThemeResource ForegroundColor}"
+    FontSize="13"
+    FontWeight="SemiBold"
+    Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <converters:ColorToRGBConverter x:Key="ColorToRGBConverter"/>
+        <converters:ColorToRGBStringConverter x:Key="ColorToRGBStringConverter"/>
+        <converters:IntToGradientTrackbarConverter x:Key="IntToGradientTrackbarConverter"/>
+        <converters:AngleToOpacityConverter x:Key="AngleToOpacityConverter"/>
+        <converters:DoubleToClampedDegreesString x:Key="DoubleToClampedDegreesString"/>
+        <converters:ColorToHexConverter x:Key="ColorToHexConverter"/>
+        <Storyboard x:Name="AnimateInContainer">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="gridInnerContainer">
+                <EasingDoubleKeyFrame KeyTime="0" Value="75">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CircleEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridInnerContainer">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid Background="{ThemeResource BackgroundColor}">
+
+        <Grid x:Name="gridBlur" VerticalAlignment="Top" Height="600">
+            <Grid x:Name="gridBlurInner" Height="200" VerticalAlignment="Top" MaxWidth="460" Margin="30,140,30,0">
+                <Rectangle Fill="{ThemeResource ForegroundColor}" Opacity=".1"/>
+                <controls:GradientPreview x:Name="gradientPreviewShadow" DataContext="{x:Bind ViewModel, Mode=OneWay}" Opacity=".44"/>
+            </Grid>
+        </Grid>
+
+        <Rectangle Opacity=".05">
+            <Rectangle.Fill>
+                <AcrylicBrush FallbackColor="Transparent" BackgroundSource="HostBackdrop" TintColor="Transparent" TintOpacity="0"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Grid x:Name="gridInnerContainer" RenderTransformOrigin="0.5,0.5">
+
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="17"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" MaxWidth="480" Margin="30,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="17"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="textBoxColorName" PlaceholderText="Untitled" Text="{x:Bind ViewModel.Name, Mode=TwoWay, FallbackValue='Sleep Well Beast', UpdateSourceTrigger=PropertyChanged}" Style="{ThemeResource TextBoxTitle}" Margin="15,0,0,0"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <Button x:Name="buttonOpenInNewWindow" Command="{x:Bind ViewModel.OpenColorInNewWindowCommand}" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1">
+                        <ToolTipService.ToolTip>
+                            Open Color in New Window
+                        </ToolTipService.ToolTip>
+                        &#xE8A7;
+                    </Button>
+                    <Button x:Name="buttonVersions" Click="buttonVersions_Click" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontSize="14">
+                        <ToolTipService.ToolTip>
+                            Versions
+                        </ToolTipService.ToolTip>
+                        &#xE81C;
+                    </Button>
+                    <Button x:Name="buttonExport" Click="buttonExport_Click" HorizontalAlignment="Right" Grid.Column="1" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1">
+                        <ToolTipService.ToolTip>
+                            Export Color
+                        </ToolTipService.ToolTip>
+                        &#xE72D;
+                    </Button>
+                    <Button Style="{ThemeResource ButtonAppBar}">
+                        <ToolTipService.ToolTip>
+                            Delete Color
+                        </ToolTipService.ToolTip>
+                        &#xE74D;
+                        <Button.Flyout>
+                            <Flyout x:Name="flyoutDelete">
+                                <Grid Width="300">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="1"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="1"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" Padding="30,20,30,15" TextWrapping="Wrap" TextLineBounds="Full" LineHeight="24" TextAlignment="Center" Grid.ColumnSpan="3">Are you sure you want to delete this color?</TextBlock>
+                                    <Rectangle Fill="{ThemeResource ForegroundColor}" Grid.Row="1" Grid.ColumnSpan="3" Opacity=".05"/>
+                                    <Rectangle Fill="{ThemeResource ForegroundColor}" Grid.Row="2" Grid.Column="1" Opacity=".05"/>
+                                    <Rectangle Fill="{ThemeResource revealBorderBrush}" Grid.Row="1" Grid.ColumnSpan="3"/>
+                                    <Rectangle Fill="{ThemeResource revealBorderBrush}" Grid.Row="2" Grid.Column="1"/>
+                                    <Button Click="buttonCancelDelete_Click" Grid.Row="2" Style="{ThemeResource ButtonFlatReveal}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1,0,0,1">
+                                        Cancel
+                                    </Button>
+                                    <Button Click="buttonConfirmDelete_Click" Grid.Row="2" Grid.Column="2" Style="{ThemeResource ButtonFlatReveal}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0,0,1,1" Foreground="#ff3b30">
+                                        Delete
+                                    </Button>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+
+            <ScrollViewer Grid.Row="3" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" ViewChanged="ScrollViewer_ViewChanged">
+
+                <Grid>
+
+                    <StackPanel MaxWidth="480" Margin="30,0" Orientation="Vertical" VerticalAlignment="Top">
+
+                        <Grid Height="220">
+                            <controls:GradientPreview DataContext="{x:Bind ViewModel, Mode=OneWay}"/>
+                            <controls:GradientTrackBar x:Name="gradientTrackBar" DataContext="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.Colors.Count, Mode=OneWay, Converter={StaticResource IntToGradientTrackbarConverter}}"/>
+                            <Grid x:Name="gridRadial" Opacity="0" IsHitTestVisible="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="2*"/>
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="{ThemeResource BackgroundColor}" Opacity=".5" Grid.RowSpan="5"/>
+                                <mscontrols:RadialGauge Grid.Row="1" Value="{x:Bind ViewModel.Rotation, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="71" Height="71" IsInteractive="True" Maximum="360" MaxAngle="360" MinAngle="0" NeedleLength="0" TickLength="0" ScaleWidth="25" NeedleWidth="0" ScaleTickWidth="3" ScalePadding="0" ScaleTickBrush="{ThemeResource ForegroundColor}" ValueBrush="{x:Null}" ScaleBrush="{x:Null}" TrailBrush="{ThemeResource ForegroundColor}" NeedleBrush="{ThemeResource ForegroundColor}" TickSpacing="30"/>
+                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind ViewModel.Rotation, Mode=OneWay, Converter={StaticResource DoubleToClampedDegreesString}}"/>
+                                <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <Button Click="buttonSetAngle_Click" Tag="0" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=0}">0</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="45" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=45}">45</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="90" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=90}">90</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="135" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=135}">135</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="180" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=180}">180</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="225" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=225}">225</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="270" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=270}">270</TextBlock>
+                                    </Button>
+                                    <Button Click="buttonSetAngle_Click" Tag="315" Style="{ThemeResource ButtonAppBar}" FontFamily="Segoe UI" Width="50" FontWeight="SemiBold" FontSize="13">
+                                        <TextBlock Opacity="{Binding Rotation, Mode=OneWay, Converter={StaticResource AngleToOpacityConverter}, ConverterParameter=315}">315</TextBlock>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" Margin="15,30,0,30">
+                                <RadioButton x:Name="radioButtonHex" Style="{StaticResource RadioButtonText}" IsChecked="True" Checked="radioButton_Checked">
+                                    HEX
+                                </RadioButton>
+                                <RadioButton x:Name="radioButtonRGB" Style="{StaticResource RadioButtonText}" Checked="radioButton_Checked">
+                                    RGB
+                                </RadioButton>
+                                <RadioButton x:Name="radioButtonHSV" Style="{StaticResource RadioButtonText}" Checked="radioButton_Checked" Visibility="Collapsed">
+                                    HSV
+                                </RadioButton>
+                                <RadioButton x:Name="radioButtonWheel" Style="{StaticResource RadioButtonText}" Checked="radioButton_Checked">
+                                    WHEEL
+                                </RadioButton>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                                <Button Click="buttonAddToTrackBar_Click" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1">
+                                    <ToolTipService.ToolTip>
+                                        Add Color to Gradient
+                                    </ToolTipService.ToolTip>
+                                    <Grid Width="13" Height="13">
+                                        <Rectangle Width="1" Fill="{ThemeResource ForegroundColor}"/>
+                                        <Rectangle Height="1" Fill="{ThemeResource ForegroundColor}"/>
+                                    </Grid>
+                                </Button>
+                                <Button x:Name="buttonShowRadial" Click="buttonShowRadial_Click" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1" Visibility="{x:Bind ViewModel.Colors.Count, Mode=OneWay, Converter={StaticResource IntToGradientTrackbarConverter}}">
+                                    <ToolTipService.ToolTip>
+                                        Edit Gradient Angle
+                                    </ToolTipService.ToolTip>
+                                    <mscontrols:RadialGauge Grid.Row="1" Value="{x:Bind ViewModel.Rotation, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="17" Height="17" IsInteractive="False" Maximum="360" MaxAngle="360" MinAngle="0" NeedleLength="0" TickLength="45" ScaleWidth="45" NeedleWidth="0" ScaleTickWidth="0" ScalePadding="0" ScaleTickBrush="{ThemeResource ForegroundColor}" ValueBrush="{x:Null}" ScaleBrush="{x:Null}" TrailBrush="{ThemeResource ForegroundColor}" NeedleBrush="{ThemeResource ForegroundColor}" TickSpacing="45" TickWidth="12" TickBrush="{ThemeResource ForegroundColor}"/>
+                                </Button>
+                                <Button Style="{ThemeResource ButtonAppBar}">
+                                    <ToolTipService.ToolTip>
+                                        More
+                                    </ToolTipService.ToolTip>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Stroke="{ThemeResource ForegroundColor}" Width="5" Height="5"/>
+                                        <Ellipse Stroke="{ThemeResource ForegroundColor}" Width="5" Height="5" Margin="4,0"/>
+                                        <Ellipse Stroke="{ThemeResource ForegroundColor}" Width="5" Height="5"/>
+                                    </StackPanel>
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Visibility="Collapsed">
+                                                Eyedropper
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator Visibility="Collapsed"/>
+                                            <MenuFlyoutItem Command="{x:Bind ViewModel.UseAverageColorFromImageCommand}">
+                                                Use average color from image
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid x:Name="gridEditControls" Margin="0,0,0,30">
+
+                            <Border x:Name="borderPivotBG" Background="{ThemeResource ForegroundColor}" Opacity=".035" VerticalAlignment="Top"/>
+                            <Border x:Name="borderPivotBorder" BorderBrush="{ThemeResource revealBorderBrush}" BorderThickness="1" VerticalAlignment="Top"/>
+
+                            <Grid x:Name="gridEditControlsInner" SizeChanged="gridEditControlsInner_SizeChanged" VerticalAlignment="Top">
+
+                                <Grid x:Name="gridHEX">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="60"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBox Text="{x:Bind ViewModel.SelectedItem.Color, Mode=TwoWay, Converter={StaticResource ColorToHexConverter}}" PlaceholderText="#000000" Style="{StaticResource TextBoxTransparent}" TextAlignment="Center"/>
+                                    <Button x:Name="buttonCopyHex" Click="Copy" Padding="1,0" Grid.Row="1" Style="{StaticResource ButtonFlatReveal}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <controls:CopyButton>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock>Copy</TextBlock>
+                                                <TextBlock Text="{x:Bind ViewModel.SelectedItem.Color, Mode=TwoWay, Converter={StaticResource ColorToHexConverter}, FallbackValue='#000000'}" Opacity=".5" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </controls:CopyButton>
+                                    </Button>
+                                </Grid>
+
+                                <Grid x:Name="gridRGB" Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Margin="24,14">
+                                        <Slider Style="{StaticResource SliderR}" IsThumbToolTipEnabled="False" Minimum="0" Maximum="255" Value="{x:Bind ViewModel.SelectedItem.Color, Converter={StaticResource ColorToRGBConverter}, ConverterParameter='R', Mode=TwoWay}"/>
+                                        <Slider Style="{StaticResource SliderG}" Minimum="0" Maximum="255" IsThumbToolTipEnabled="False" Value="{x:Bind ViewModel.SelectedItem.Color, Converter={StaticResource ColorToRGBConverter}, ConverterParameter='G', Mode=TwoWay}"/>
+                                        <Slider Style="{StaticResource SliderB}" Minimum="0" Maximum="255" IsThumbToolTipEnabled="False" Value="{x:Bind ViewModel.SelectedItem.Color, Converter={StaticResource ColorToRGBConverter}, ConverterParameter='B', Mode=TwoWay}"/>
+                                    </StackPanel>
+                                    <Button x:Name="buttonCopyRGB" Click="Copy" Grid.Row="1" Padding="1,0" Style="{StaticResource ButtonFlatReveal}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                        <controls:CopyButton>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock>Copy</TextBlock>
+                                                <TextBlock Text="{x:Bind ViewModel.SelectedItem.Color, Converter={StaticResource ColorToRGBStringConverter}, Mode=OneWay}" Opacity=".5" Margin="10,0,0,0"/>
+                                            </StackPanel>
+                                        </controls:CopyButton>
+                                    </Button>
+                                </Grid>
+
+                                <Grid x:Name="gridColorPicker" Padding="30" Visibility="Collapsed">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ColorSpectrum x:Name="colorSpectrum" ColorChanged="colorSpectrum_ColorChanged" Height="200" Width="200"/>
+                                    <StackPanel Grid.Column="1" Padding="30,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Margin="0,0,0,20" FontWeight="SemiBold" Opacity=".4">TYPE</TextBlock>
+                                        <ComboBox x:Name="comboBoxType" PlaceholderText="Box" HorizontalAlignment="Stretch" Margin="0,0,0,10" SelectedIndex="0" SelectionChanged="comboBoxType_SelectionChanged">
+                                            <ComboBoxItem>
+                                                Box
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                Ring
+                                            </ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Margin="0,20" FontWeight="SemiBold" Opacity=".4">VIEW</TextBlock>
+                                        <ComboBox x:Name="comboBoxView" PlaceholderText="HueSaturation" HorizontalAlignment="Stretch" SelectedIndex="0" SelectionChanged="comboBoxView_SelectionChanged">
+                                            <ComboBoxItem>
+                                                HueSaturation
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                HueValue
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                SaturationHue
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                SaturationValue
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                ValueSaturation
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                ValueHue
+                                            </ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+                                
+                            </Grid>
+                          
+                        </Grid>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </ScrollViewer>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

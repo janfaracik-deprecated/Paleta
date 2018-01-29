@@ -1,0 +1,41 @@
+﻿<UserControl
+    x:Class="Palette.Views.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Palette.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Palette.Controls"
+    mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Center" Height="420" Padding="20">
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Path
+		Height="63"
+		Width="48"
+		Stretch="Fill"
+		Data="M 0,42.66666793823242 C0,54.94443130493164 10.745176315307617,64 24,64 37.25486373901367,64 48.09407043457031,54.94426345825195 48,42.66666793823242 47.92604064941406,33.0178337097168 38.20149612426758,17.1286678314209 32,8 30.14272689819336,5.266070365905762 27.628768920898438,2.304119825363159 25.77178955078125,0.8725742101669312 24.907909393310547,0.20661088824272156 23.091585159301758,0.20111848413944244 22.219999313354492,0.8577964901924133 20.339170455932617,2.274866819381714 17.788663864135742,5.224698543548584 16,8 9.795616149902344,17.62674903869629 0,34.61366653442383 0,42.66666793823242 z">
+                <Path.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#F4489E"/>
+                        <GradientStop Color="#FD510F" Offset="1"/>
+                    </LinearGradientBrush>
+                </Path.Fill>
+            </Path>
+            <TextBlock x:Name="textBlockTitle" FontWeight="Bold" FontSize="30" HorizontalAlignment="Center" Margin="0,36,0,20">Paleta</TextBlock>
+            <TextBlock x:Name="textBlockVersion" HorizontalAlignment="Center" CharacterSpacing="100" Opacity=".6">2.0</TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Click="buttonAcknowledgements_Click" Style="{StaticResource ButtonAppBarText}" BorderThickness="1,1,0,1">
+                Acknowledgements
+            </Button>
+            <Button Click="buttonPrivacyPolicy_Click" Style="{StaticResource ButtonAppBarText}">
+                Privacy Policy
+            </Button>
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>
