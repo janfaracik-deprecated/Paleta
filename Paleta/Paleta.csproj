@@ -7,8 +7,8 @@
     <ProjectGuid>{4C243E39-5532-474B-872D-9D53E6086091}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Palette</RootNamespace>
-    <AssemblyName>Palette</AssemblyName>
+    <RootNamespace>Paleta</RootNamespace>
+    <AssemblyName>Paleta</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
@@ -17,11 +17,11 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>Palette_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Paleta_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>D4F0CB893EC71C84CF4FD9F9F10A93416392240D</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>0953C9D94B1321F26FA2E7318DF5CFC0664D072E</PackageCertificateThumbprint>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -95,7 +95,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Palette_StoreKey.pfx" />
+    <None Include="Paleta_StoreKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -135,7 +135,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\VersionsViewModel.cs" />
     <Compile Include="Models\WhatsNewItem.cs" />
     <Compile Include="ViewModels\WhatsNewViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
@@ -164,7 +163,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Palette_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LargeTile.scale-200.png" />
@@ -267,9 +265,6 @@
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.3.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

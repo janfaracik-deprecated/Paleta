@@ -7,7 +7,16 @@ namespace Palette.Models
     public class VersionItem : BindableBase
     {
 
-        public ObservableCollection<ColorItem> Colors { get; set; } = new ObservableCollection<ColorItem>();
+        private ObservableCollection<ColorItem> _colors = new ObservableCollection<ColorItem>();
+        public ObservableCollection<ColorItem> Colors
+        {
+            get => _colors;
+            set
+            {
+                _colors = value;
+                OnPropertyChanged();
+            }
+        }
 
         private String _name = "";
         public String Name

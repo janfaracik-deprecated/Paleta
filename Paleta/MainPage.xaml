@@ -66,7 +66,7 @@
             <Grid Grid.Row="1">
                 <TextBlock x:Name="textBlockPalettes" VerticalAlignment="Center" Margin="30,0" FontWeight="Bold" FontSize="24" HorizontalAlignment="Left">Palettes</TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Click="buttonNewPalette_Click" HorizontalAlignment="Right" Grid.Column="1" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1">
+                    <Button Click="buttonNewPalette_Click" Command="{x:Bind ViewModel.NewPaletteCommand}" HorizontalAlignment="Right" Grid.Column="1" Style="{ThemeResource ButtonAppBar}" BorderThickness="1,1,0,1">
                         <ToolTipService.ToolTip>
                             New Palette
                         </ToolTipService.ToolTip>
@@ -119,7 +119,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Button Click="buttonNewPalette_Click" Style="{StaticResource ButtonTransparent}" Height="Auto" Margin="30,0,30,0" Grid.RowSpan="5" VerticalAlignment="Center" Visibility="{x:Bind ViewModel.Palettes.Count, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay, FallbackValue='Collapsed'}">
+            <Button Click="buttonNewPalette_Click" Command="{x:Bind ViewModel.NewPaletteCommand}" Style="{StaticResource ButtonTransparent}" Height="Auto" Margin="30,0,30,0" Grid.RowSpan="5" VerticalAlignment="Center" Visibility="{x:Bind ViewModel.Palettes.Count, Converter={StaticResource IntToVisibilityConverter}, Mode=OneWay, FallbackValue='Collapsed'}">
                 <StackPanel Padding="0,30">
                     <TextBlock HorizontalAlignment="Center">You don't have any Palettes</TextBlock>
                     <TextBlock HorizontalAlignment="Center" Margin="0,24,0,0" Opacity=".75">Tap here to add one</TextBlock>

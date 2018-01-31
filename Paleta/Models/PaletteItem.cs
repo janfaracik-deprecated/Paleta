@@ -17,7 +17,16 @@ namespace Palette.Models
     public class PaletteItem : BindableBase
     {
 
-        public ObservableCollection<ColorCollectionItem> Colors { get; set; } = new ObservableCollection<ColorCollectionItem>();
+        private ObservableCollection<ColorCollectionItem> _colors = new ObservableCollection<ColorCollectionItem>();
+        public ObservableCollection<ColorCollectionItem> Colors
+        {
+            get => _colors;
+            set
+            {
+                _colors = value;
+                OnPropertyChanged();
+            }
+        }
 
         private string _name;
         public string Name
@@ -78,9 +87,9 @@ namespace Palette.Models
             Messenger.Default.Register<String>(this, (action) => ReceiveMessage(action));
         }
 
-        public PaletteItem(string sentName) : base()
+        public PaletteItem(string name) : base()
         {
-            _name = sentName;
+            _name = name;
         }
 
         #region Public

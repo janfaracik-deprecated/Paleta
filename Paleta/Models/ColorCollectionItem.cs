@@ -28,8 +28,35 @@ namespace Palette.Models
 
         private DispatcherTimer VersionsTimer = new DispatcherTimer();
 
-        public ObservableCollection<ColorItem> Colors { get; set; } = new ObservableCollection<ColorItem>();
-        public ObservableCollection<VersionItem> Versions { get; set; } = new ObservableCollection<VersionItem>();
+        private ObservableCollection<ColorItem> _colors = new ObservableCollection<ColorItem>();
+        public ObservableCollection<ColorItem> Colors
+        {
+            get => _colors;
+            set
+            {
+                _colors = value;
+                Colors.CollectionChanged += Colors_CollectionChanged;
+                foreach (ColorItem colorItem in Colors)
+                {
+                    colorItem.PropertyChanged += (s, e2) =>
+                    {
+                        OnPropertyChanged("Colors");
+                    };
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<VersionItem> _versions = new ObservableCollection<VersionItem>();
+        public ObservableCollection<VersionItem> Versions
+        {
+            get => _versions;
+            set
+            {
+                _versions = value;
+                OnPropertyChanged();
+            }
+        }
 
         private String _name = "";
         public String Name
@@ -106,7 +133,6 @@ namespace Palette.Models
 
         public ColorCollectionItem()
         {
-            Colors.CollectionChanged += Colors_CollectionChanged;
             VersionsTimer.Tick += VersionsTimer_Tick;
             VersionsTimer.Interval = TimeSpan.FromMilliseconds(800);
             SelectedIndex = 0;
@@ -114,7 +140,12 @@ namespace Palette.Models
 
         public ColorCollectionItem(String name, Windows.UI.Color color)
         {
-            Colors.Add(new ColorItem { Color = color, Offset = 0 });
+            ColorItem colorItem = new ColorItem() { Color = color, Offset = 0 };
+            Colors.Add(colorItem);
+            colorItem.PropertyChanged += (s, e2) =>
+            {
+                OnPropertyChanged("Colors");
+            };
             Colors.CollectionChanged += Colors_CollectionChanged;
             SelectedIndex = 0;
             Name = name;

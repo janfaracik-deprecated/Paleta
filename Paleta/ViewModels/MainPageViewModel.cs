@@ -10,9 +10,12 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Newtonsoft.Json;
 using Palette.Views;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace Palette.ViewModels
 {
@@ -23,7 +26,16 @@ namespace Palette.ViewModels
         private static readonly StorageFolder roamingFolder = ApplicationData.Current.RoamingFolder;
         private static readonly string fileName = "data.txt";
 
-        public ObservableCollection<PaletteItem> Palettes { get; set; } = new ObservableCollection<PaletteItem>();
+        private ObservableCollection<PaletteItem> _palettes = new ObservableCollection<PaletteItem>();
+        public ObservableCollection<PaletteItem> Palettes
+        {
+            get => _palettes;
+            set
+            {
+                _palettes = value;
+                OnPropertyChanged();
+            }
+        }
 
         private int _selectedIndex = -1;
         public int SelectedIndex
@@ -70,7 +82,12 @@ namespace Palette.ViewModels
                 Debug.WriteLine("");
                 Debug.WriteLine("The File Path is: " + file.Path);
                 Debug.WriteLine("");
-                Palettes = JsonConvert.DeserializeObject<ObservableCollection<PaletteItem>>(json);
+
+                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(Palettes.GetType());
+                Palettes = ser.ReadObject(ms) as ObservableCollection<PaletteItem>;
+                ms.Close();
+
             }
             catch (Exception ex)
             {
@@ -91,9 +108,16 @@ namespace Palette.ViewModels
         public async void Save()
         {
             Debug.WriteLine("Saving " + DateTime.Now);
-            string json = JsonConvert.SerializeObject(Palettes, Formatting.Indented);
+
+            MemoryStream ms = new MemoryStream();
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(ObservableCollection<PaletteItem>));
+            ser.WriteObject(ms, Palettes);
+            byte[] json = ms.ToArray();
+            ms.Close();
+            string jsonString = Encoding.UTF8.GetString(json, 0, json.Length);
+
             StorageFile file = await roamingFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, json);
+            await FileIO.WriteTextAsync(file, jsonString);
         }
 
         private void SaveTimer_Tick(object sender, object e)
@@ -116,17 +140,31 @@ namespace Palette.ViewModels
 
         #region New Palette
 
+        private ICommand _newPaletteCommand;
+
+        public ICommand NewPaletteCommand
+        {
+            get
+            {
+                if (_newPaletteCommand == null)
+                {
+                    _newPaletteCommand = new RelayCommand(NewPalette);
+                }
+                return _newPaletteCommand;
+            }
+        }
+
         public void NewPalette()
         {
             Palettes.Add(new PaletteItem());
             SelectedIndex = Palettes.Count - 1;
+            SaveTimer.Start();
         }
 
         #endregion
 
         public async void ImportPalettes()
         {
-            List<PaletteItem> temp = new List<PaletteItem>();
 
             TextBox textBox = new TextBox
             {
@@ -153,23 +191,27 @@ namespace Palette.ViewModels
 
             if (result == ContentDialogResult.Primary)
             {
+
+                List<PaletteItem> temp = new List<PaletteItem>();
+
                 try
                 {
                     string json = textBox.Text;
-                    temp = JsonConvert.DeserializeObject<List<PaletteItem>>(json);
+                    MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+                    DataContractJsonSerializer ser = new DataContractJsonSerializer(temp.GetType());
+                    temp = ser.ReadObject(ms) as List<PaletteItem>;
+                    ms.Close();
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }
 
-                if (temp != null)
+                foreach (var paletteItem in temp)
                 {
-                    foreach (var paletteItem in temp)
-                    {
-                        Palettes.Add(paletteItem);
-                    }
+                    Palettes.Add(paletteItem);
                 }
+
             }
 
         }
@@ -179,11 +221,20 @@ namespace Palette.ViewModels
             TextBox textBox = new TextBox
             {
                 AcceptsReturn = true,
-                Text = JsonConvert.SerializeObject(Palettes, Formatting.Indented),
                 IsReadOnly = true,
                 Style = (Style)Application.Current.Resources["TextBoxContentDialog"],
                 IsSpellCheckEnabled = false
             };
+
+            // Convert Palettes to JSON
+
+            MemoryStream ms = new MemoryStream();
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(ObservableCollection<PaletteItem>));
+            ser.WriteObject(ms, Palettes);
+            byte[] json = ms.ToArray();
+            ms.Close();
+            string jsonString = Encoding.UTF8.GetString(json, 0, json.Length);
+            textBox.Text = jsonString;
 
             ScrollViewer.SetVerticalScrollBarVisibility(textBox, ScrollBarVisibility.Auto);
 
@@ -259,85 +310,6 @@ namespace Palette.ViewModels
             {
                 //   btn.Content = "Result: NONE";
             }
-        }
-
-        #endregion
-
-        #region Copy
-
-        public void CopyRGB()
-        {
-            //  ColorItem ci = Palettes[SelectedIndex].Colors[Palettes[SelectedIndex].SelectedIndex];
-            //  String str = String.Format("rgb({0}, {1}, {2})", ci.R, ci.G, ci.B);
-            //    DataPackage dataPackage = new DataPackage();
-            //   dataPackage.SetText(str);
-            //   dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            //   Clipboard.SetContent(dataPackage);
-            //  NotificationHelper.ShowNotification(str + " copied to clipboard.");
-        }
-
-        #endregion
-
-        #region Share
-
-        private ICommand _sharePaletteCommand;
-
-        public ICommand SharePaletteCommand
-        {
-            get
-            {
-                if (_sharePaletteCommand == null)
-                {
-                    _sharePaletteCommand = new RelayCommand<PaletteItem>(p => SharePalette(p));
-                }
-                return _sharePaletteCommand;
-            }
-        }
-
-        public void SharePalette(PaletteItem paletteItem)
-        {
-            DataTransferManager.ShowShareUI();
-            DataTransferManager.GetForCurrentView().DataRequested += (sender, args) =>
-            {
-                String shareText = "";
-
-                //foreach (ColorItem ci in paletteItem.Colors)
-                //{
-
-                //  // String ColorItemName = ci.Name;
-
-                //    if (String.IsNullOrWhiteSpace(ColorItemName))
-                //    {
-                //        ColorItemName = "Untitled";
-                //    }
-
-                //    if (shareText == "")
-                //    {
-                //       // shareText = ColorItemName + ": " + ci.Hex;
-                //    }
-                //    else
-                //    {
-                //      //  shareText = shareText + Environment.NewLine + ColorItemName + ": " + ci.Hex;
-                //    }
-                //}
-
-                args.Request.Data.Properties.Title = paletteItem.Name;
-                args.Request.Data.SetText(shareText);
-            };
-        }
-
-        public void Share()
-        {
-            DataTransferManager.ShowShareUI();
-            DataTransferManager.GetForCurrentView().DataRequested += ShareColour_DataRequested;
-        }
-
-        private void ShareColour_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
-        {
-            //  ColorItem ci = Palettes[SelectedIndex].Colors[Palettes[SelectedIndex].SelectedIndex];
-
-            //  args.Request.Data.Properties.Title = ci.Name;
-            // args.Request.Data.SetText(ci.Hex);
         }
 
         #endregion

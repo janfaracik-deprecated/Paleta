@@ -14,7 +14,7 @@ namespace Palette.Views
             PackageVersion version = packageId.Version;
 
             textBlockTitle.Text = Package.Current.DisplayName;
-            textBlockVersion.Text = string.Format("{0}.{1}", version.Major, version.Minor);
+            textBlockVersion.Text = string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
         }
 
         private async void buttonAcknowledgements_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

@@ -148,7 +148,6 @@ namespace Palette
 
         private async void buttonNewPalette_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.NewPalette();
             // Scroll to bottom of ListView ScrollViewer on item add
             await Task.Delay(20);
             var scrollViewer = ControlHelper.GetScrollViewer(listViewPalettes);
