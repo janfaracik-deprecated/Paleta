@@ -8,7 +8,7 @@
     xmlns:controls="using:Palette.Controls"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Center" Height="420" MinWidth="270" Padding="20">
+    <Grid HorizontalAlignment="Center" Height="420" Padding="20">
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Path
@@ -28,10 +28,10 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Button Click="buttonAcknowledgements_Click" Style="{StaticResource ButtonAppBarText}">
+            <Button Click="buttonAcknowledgements_Click" Style="{StaticResource ButtonAppBarText}" BorderThickness="1,1,0,1">
                 Acknowledgements
             </Button>
-            <Button Click="buttonPrivacyPolicy_Click" Style="{StaticResource ButtonAppBarText}" Visibility="Collapsed">
+            <Button Click="buttonPrivacyPolicy_Click" Style="{StaticResource ButtonAppBarText}">
                 Privacy Policy
             </Button>
         </StackPanel>
