@@ -1,8 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using Palette.Controls;
-using Palette.Converters;
-using Palette.Models;
-using Palette.ViewModels;
+using Paleta.Controls;
+using Paleta.Converters;
+using Paleta.Models;
+using Paleta.ViewModels;
 using Shared.Helpers;
 using System;
 using System.Diagnostics;
@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Palette
+namespace Paleta
 {
     public sealed partial class MainPage : Page
     {

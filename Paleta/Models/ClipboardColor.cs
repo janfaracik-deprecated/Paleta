@@ -1,12 +1,11 @@
-﻿using Palette.Converters;
+﻿using Paleta.Converters;
 using System;
 using Windows.UI;
 
-namespace Palette.Models
+namespace Paleta.Models
 {
     public class ClipboardColor
     {
-
         public String Name { get; set; }
         public String HEX { get; set; }
         public Color Color { get; set; }
@@ -17,6 +16,5 @@ namespace Palette.Models
             this.Color = color;
             this.HEX = ColorConverters.ColorToHex(color);
         }
-
     }
 }

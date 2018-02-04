@@ -1,13 +1,9 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using Windows.UI;
 
-namespace Palette.Helpers
+namespace Paleta.Helpers
 {
 
     //http://chir.ag/projects/ntc/ntc.js

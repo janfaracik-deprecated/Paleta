@@ -1,23 +1,21 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using Palette.Models;
+using Paleta.Models;
 using Shared.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Palette.Views;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using Paleta.Views.Dialogs;
 
-namespace Palette.ViewModels
+namespace Paleta.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
@@ -227,7 +225,6 @@ namespace Palette.ViewModels
             };
 
             // Convert Palettes to JSON
-
             MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(ObservableCollection<PaletteItem>));
             ser.WriteObject(ms, Palettes);
@@ -245,8 +242,7 @@ namespace Palette.ViewModels
                 CloseButtonText = "Close Dialog"
             };
 
-            //Show Dialog
-
+            // Show Dialog
             await dialog.ShowAsync();
         }
 
@@ -314,45 +310,47 @@ namespace Palette.ViewModels
 
         #endregion
 
-        #region Overflow
+        #region Overflow Menu
+
+        public async void Settings()
+        {
+            // Create Content
+            var dialog = new ContentDialog()
+            {
+                Content = new SettingsView(),
+                Title = "Settings",
+                CloseButtonText = "Close Dialog"
+            };
+
+            // Show Dialog
+            await dialog.ShowAsync();
+        }
 
         public async void WhatsNew()
         {
-
-            //Create Content
-
-            WhatsNewView whatsNewView = new WhatsNewView();
-
+            // Create Content
             var dialog = new ContentDialog()
             {
-                Content = whatsNewView,
+                Content = new WhatsNewView(),
                 Title = "What's New",
                 CloseButtonText = "Close Dialog"
             };
 
-            //Show Dialog
-
+            // Show Dialog
             await dialog.ShowAsync();
-
         }
 
         public async void About()
         {
-
-            //Create Content
-
-            AboutView aboutView = new AboutView();
-
+            // Create Content
             var dialog = new ContentDialog()
             {
-                Content = aboutView,
+                Content = new AboutView(),
                 CloseButtonText = "Close Dialog"
             };
 
-            //Show Dialog
-
+            // Show Dialog
             await dialog.ShowAsync();
-
         }
 
         #endregion

@@ -1,6 +1,6 @@
-﻿using Palette.Controls;
-using Palette.Models;
-using Palette.ViewModels;
+﻿using Paleta.Controls;
+using Paleta.Models;
+using Paleta.ViewModels;
 using Shared.Helpers;
 using System;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Palette.Views
+namespace Paleta.Views
 {
     public sealed partial class ExportView : UserControl
     {

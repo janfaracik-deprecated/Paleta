@@ -1,4 +1,4 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using Shared.Helpers;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -8,9 +8,9 @@ using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Diagnostics;
 using Windows.ApplicationModel.DataTransfer;
-using Palette.Converters;
+using Paleta.Converters;
 
-namespace Palette.Views
+namespace Paleta.Views
 {
     public sealed partial class ColorView : UserControl
     {

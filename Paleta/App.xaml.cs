@@ -1,4 +1,4 @@
-﻿using Palette.Views;
+﻿using Paleta.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Palette
+namespace Paleta
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

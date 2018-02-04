@@ -1,4 +1,4 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using Shared.Helpers;
 using System;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace Palette.Views
+namespace Paleta.Views
 {
     public sealed partial class VersionsView : UserControl
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Palette.Helpers
+namespace Paleta.Helpers
 {
     static class Extensions
     {

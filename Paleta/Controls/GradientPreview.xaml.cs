@@ -1,4 +1,4 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Palette.Controls
+namespace Paleta.Controls
 {
 
     internal sealed class IntToVisibilityConverter : IValueConverter

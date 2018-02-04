@@ -2,7 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace Palette.Models
+namespace Paleta.Models
 {
     public class VersionItem : BindableBase
     {

@@ -1,6 +1,6 @@
-﻿using Palette.Helpers;
-using Palette.Models;
-using Palette.ViewModels;
+﻿using Paleta.Helpers;
+using Paleta.Models;
+using Paleta.ViewModels;
 using Shared.Helpers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -11,7 +11,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Palette.Views
+namespace Paleta.Views
 {
     public sealed partial class NewWindowView : UserControl
     {

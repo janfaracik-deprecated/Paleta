@@ -1,13 +1,13 @@
 ﻿<Page
-    x:Class="Palette.MainPage"
+    x:Class="Paleta.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Palette.Controls"
+    xmlns:controls="using:Paleta.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="using:Palette.Converters"
-    xmlns:views="using:Palette.Views"
-    xmlns:models="using:Palette.Models"
+    xmlns:converters="using:Paleta.Converters"
+    xmlns:views="using:Paleta.Views"
+    xmlns:models="using:Paleta.Models"
     mc:Ignorable="d"
     Foreground="{ThemeResource ForegroundColor}"
     FontWeight="SemiBold"
@@ -96,6 +96,10 @@
                                     Export
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator Style="{ThemeResource MenuFlyoutSeparatorThick}"/>
+                                <MenuFlyoutItem Click="{x:Bind ViewModel.Settings}">
+                                    Settings
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Click="{x:Bind ViewModel.WhatsNew}">
                                     What's new
                                 </MenuFlyoutItem>

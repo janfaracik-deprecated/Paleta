@@ -2,9 +2,9 @@
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
-using Palette.Converters;
-using Palette.Helpers;
-using Palette.Views;
+using Paleta.Converters;
+using Paleta.Helpers;
+using Paleta.Views;
 using Shared.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -21,7 +21,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Palette.Models
+namespace Paleta.Models
 {
     public class ColorCollectionItem : INotifyPropertyChanged, IComparable
     {

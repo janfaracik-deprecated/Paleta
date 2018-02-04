@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Palette.Converters
+namespace Paleta.Converters
 {
     public class Clip
     {

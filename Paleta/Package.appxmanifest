@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" IgnorableNamespaces="uap mp">
-  <Identity Name="33768JanF.Paleta" Publisher="CN=B6FE01EF-91E5-4D81-839B-88D5E9221DD5" Version="2.0.2.0" />
+  <Identity Name="33768JanF.Paleta" Publisher="CN=B6FE01EF-91E5-4D81-839B-88D5E9221DD5" Version="2.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="fe7953fd-9c97-43c7-8780-5f045966bbf4" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Paleta</DisplayName>

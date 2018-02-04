@@ -1,6 +1,6 @@
-﻿using Palette.Converters;
-using Palette.Helpers;
-using Palette.Models;
+﻿using Paleta.Converters;
+using Paleta.Helpers;
+using Paleta.Models;
 using Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using Windows.UI;
 
-namespace Palette.ViewModels
+namespace Paleta.ViewModels
 {
     public class ExportViewModel : BindableBase
     {

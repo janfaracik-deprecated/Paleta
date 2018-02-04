@@ -1,11 +1,10 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Palette.Controls
+namespace Paleta.Controls
 {
     public sealed partial class CopyButton : UserControl
     {
-
         public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(object), typeof(CopyButton), new PropertyMetadata(null));
 
         public new object Content
@@ -32,6 +31,5 @@ namespace Palette.Controls
         {
             Animate.Begin();
         }
-
     }
 }

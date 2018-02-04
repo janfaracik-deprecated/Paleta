@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace Palette.Models
+namespace Paleta.Models
 {
     public class WhatsNewItem
     {

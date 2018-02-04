@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Palette.Controls
+namespace Paleta.Controls
 {
     public sealed partial class ExportItemControl : UserControl
     {

@@ -1,13 +1,12 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using Shared.Helpers;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
 
-namespace Palette.ViewModels
+namespace Paleta.ViewModels
 {
     public class WhatsNewViewModel : BindableBase
     {
-
         public ObservableCollection<WhatsNewItem> Items { get; set; } = new ObservableCollection<WhatsNewItem>();
 
         public WhatsNewViewModel()
@@ -22,6 +21,5 @@ namespace Palette.ViewModels
             Items.Add(new WhatsNewItem { Title = "Color Wheel", Description = "Great for picking colors quickly", Icon = Symbol.FontColor });
             Items.Add(new WhatsNewItem { Title = "Drag and Drop", Description = "Drag to reorder, duplicate or move to a different palette", Icon = Symbol.FontColor });
         }
-
     }
 }

@@ -1,15 +1,13 @@
-﻿using Palette.Models;
+﻿using Paleta.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Palette.Converters
+namespace Paleta.Converters
 {
 
     class ColorConverters

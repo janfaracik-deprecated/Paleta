@@ -1,13 +1,10 @@
 ﻿using Shared.Helpers;
-using System;
-using System.Diagnostics;
 using Windows.UI;
 
-namespace Palette.Models
+namespace Paleta.Models
 {
     public class ColorItem : BindableBase
     {
-
         private Color _color;
         public Color Color
         {
@@ -37,6 +34,5 @@ namespace Palette.Models
                 OnPropertyChanged();
             }
         }
-
     }
 }

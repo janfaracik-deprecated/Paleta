@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace Palette.Controls
+namespace Paleta.Controls
 {
     public sealed partial class SecondarySidebarItem : UserControl
     {
