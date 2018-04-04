@@ -16,3 +16,7 @@ With an incredibly simple user interface it's effortless to create, maintain and
 - Sorting
 - Color Wheel
 - Drag and Drop
+
+## Want to try it out?
+
+You can either build it from the source or download it from the [Windows Store](https://www.microsoft.com/store/productId/9P0T6BGCQ582).
