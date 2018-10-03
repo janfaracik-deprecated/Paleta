@@ -14,7 +14,7 @@ With an incredibly simple user interface it's effortless to create, maintain and
 - Clipboard Integration
 - Multiple Windows Support
 - Sorting
-- Color Wheel
+- Colour Wheel
 - Drag and Drop
 
 ## Want to try it out?
